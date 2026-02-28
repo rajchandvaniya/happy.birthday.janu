@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Happy Birthday, Mari Janu</title>
+    <style>
+        :root {
+            --bg-color: #1a1516; /* Deep, warm dark background */
+            --card-bg: #261e20;
+            --primary: #e68a99; /* Soft rose gold / blush pink */
+            --text-main: #f2e9ea;
+            --text-muted: #a89f9f;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .mobile-container {
+            width: 100%;
+            max-width: 480px;
+            background-color: var(--bg-color);
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        /* Section 1: Birthday Wish */
+        .wish-section {
+            text-align: center;
+            padding: 30px 10px;
+            border-bottom: 1px solid rgba(230, 138, 153, 0.2);
+            margin-bottom: 30px;
+        }
+
+        .wish-section h1 {
+            color: var(--primary);
+            font-size: 2rem;
+            margin-bottom: 15px;
+            font-family: 'Georgia', serif; 
+        }
+
+        .wish-section p {
+            font-size: 1.05rem;
+            line-height: 1.6;
+            color: var(--text-main);
+        }
+
+        /* Section 2: Timeline */
+        .timeline-section h2 {
+            text-align: center;
+            color: var(--primary);
+            font-family: 'Georgia', serif;
+            margin-bottom: 25px;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 11px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: rgba(230, 138, 153, 0.3);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 25px;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Pulsing heartbeat dot */
+        .timeline-dot {
+            position: absolute;
+            left: -25px;
+            top: 5px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            box-shadow: 0 0 0 0 rgba(230, 138, 153, 0.7);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(230, 138, 153, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(230, 138, 153, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(230, 138, 153, 0); }
+        }
+
+        .timeline-date {
+            font-size: 0.85rem;
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .timeline-title {
+            font-size: 1.1rem;
+            font-weight: 500;
+            background-color: var(--card-bg);
+            padding: 12px 15px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .timeline-title::after {
+            content: '+';
+            color: var(--primary);
+            font-size: 1.5rem;
+            font-weight: 300;
+            transition: transform 0.3s ease;
+        }
+
+        .timeline-item.active .timeline-title::after {
+            transform: rotate(45deg);
+        }
+
+        /* Expanding Details Section */
+        .timeline-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out, padding 0.4s ease;
+            background-color: transparent;
+            border-radius: 0 0 8px 8px;
+            margin-top: -5px;
+        }
+
+        .timeline-item.active .timeline-details {
+            max-height: 1000px; /* Increased to allow multiple images */
+            padding: 15px 5px;
+        }
+
+        .timeline-details p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin: 0 0 15px 0;
+        }
+
+        /* NEW: Horizontal Image Carousel */
+        .timeline-gallery {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            gap: 12px;
+            padding-bottom: 10px; /* Space for swiping */
+            
+            /* Hide scrollbar for a cleaner mobile look */
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+
+        .timeline-gallery::-webkit-scrollbar {
+            display: none; /* Chrome, Safari and Opera */
+        }
+
+        .timeline-gallery img {
+            scroll-snap-align: center;
+            flex: 0 0 85%; /* Shows 85% of current image, letting next image peek in */
+            height: 220px;
+            object-fit: cover;
+            border-radius: 8px;
+            background-color: #33292b; /* Fallback color before load */
+            border: 1px solid rgba(230, 138, 153, 0.1);
+        }
+
+        /* Section 3: Video Call Gallery */
+        .gallery-section {
+            margin-top: 40px;
+            border-top: 1px solid rgba(230, 138, 153, 0.2);
+            padding-top: 30px;
+        }
+
+        .gallery-section h2 {
+            text-align: center;
+            color: var(--primary);
+            font-family: 'Georgia', serif;
+            margin-bottom: 20px;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .gallery-item {
+            width: 100%;
+            aspect-ratio: 9/16;
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="mobile-container">
+        
+        <section class="wish-section">
+            <h1>Happy Birthda Janu ❤️</h1>
+            <p>
+                The best thing that happened to me in 2025 was you. The moment I first saw your biodata, my heart just knew you were the one. When we finally met at your house in Ahmedabad on November 19th, that feeling only grew stronger. I am not someone who makes major decisions quickly, but with you, it felt like I was reconnecting with a soul I had known for a lifetime.
+            </p>
+            <p>        
+                I fell in love with your genuine nature—you didn't pretend to be anyone else, you were just beautifully yourself. I loved your smile, and the adorable way you put your hand over your mouth when you laugh. That first Activa ride after lunch was a moment I had always dreamed of sharing with my partner, and having it happen on our very first day felt like magic. I still don't fully know what happened in those short two hours, but I am endlessly grateful that by the end of it, we both said YES.
+            </p>
+            <p>          
+                Even though we couldn't talk between that day and December 1st, our outfits perfectly matched when you came to visit! Looking back at October, marriage wasn't even on my mind, yet in just two months, my whole world beautifully shifted. That day in Mumbai was perfect. From our scooter ride to the ice cream parlor and walking together at Juhu Beach, my only regret was that you had to leave so soon.
+            </p>
+            <p>
+                Since then, this bond has only deepened. I can't imagine a single day without seeing your face or hearing your voice. You haven't just captured my heart; you've filled our whole family with so much love and happiness. You take care of me in ways I never expected. I'll never forget January 18th—when I was washing my face and, as usual, lost my glasses. You immediately pointed them out. In that tiny moment, I realized I had found a partner who would lovingly watch over even the smallest details of my life.
+            </p>
+            <p>
+                It has only been a few months, but it feels like an eternity. This doesn't feel like an arranged marriage; it feels like destiny. Thank you for everything, Janu. Words will never be enough to fully express how much I love you. Please, never let me go.
+            </p>
+            <p>
+                Wishing you the happiest of birthdays! I can't wait to celebrate countless more with you. I love you so much, mari Janu.
+            </p>
+            <p>
+                Every trip between Ahmedabad and Mumbai, every late-night call, and every milestone we've hit so far has been the best part of my story. I can't wait to spend the rest of my life making sure you feel as loved and cherished as you make me feel. 
+            </p>
+        </section>
+
+        <section class="timeline-section">
+            <h2>Our Story So Far</h2>
+            <div class="timeline" id="timeline-container">
+                </div>
+        </section>
+
+        <section class="gallery-section">
+            <h2>Video Calls</h2>
+            <p style="text-align: center; color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;">The video calls that kept us close when we were apart.</p>
+            <div class="gallery-grid">
+                <img class="gallery-item" src="./images/ss1.PNG" alt="Video Call">
+                <img class="gallery-item" src="./images/ss2.PNG" alt="Video Call">
+                <img class="gallery-item" src="./images/ss3.PNG" alt="Video Call">
+                <img class="gallery-item" src="./images/ss4.PNG" alt="Video Call">
+                <img class="gallery-item" src="./images/ss5.PNG" alt="Video Call">
+                <img class="gallery-item" src="./images/ss6.PNG" alt="Video Call">
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        // Updated Timeline Data with arrays for multiple images
+        const timelineData = [
+            { 
+                date: "30-31 Oct 2025", 
+                title: "Biodata Exchanged", 
+                detail: "The day it all started on paper. Little did we know what was coming next.",
+                images: [
+                    "./images/biodata1.png",
+                    "./images/biodata2.png",
+                    "./images/biodata3.png",
+                    "./images/biodata4.jpg",
+                    "./images/biodata5.jpg",
+                    "./images/biodata6.JPG",
+                    "./images/biodata7.JPG"
+                ]
+            },
+            { 
+                date: "19 Nov 2025", 
+                title: "First Meeting in Ahmedabad", 
+                detail: "We met, we talked, and we both said YES. The beginning of forever.",
+                images: [
+                ]
+            },
+            { 
+                date: "1 Dec 2025", 
+                title: "First Meeting in Mumbai", 
+                detail: "Thakorji bhet. A special blessing for a special bond.",
+                images: [
+                    "./images/bhet1.png",
+                    "./images/bhet2.jpg",
+                    "./images/bhet3.jpg",
+                    "./images/bhet4.jpg",
+                    "./images/bhet5.jpg",
+                    "./images/bhet6.jpg",
+                    "./images/bhet7.jpg",
+                    "./images/bhet8.JPG",
+                    "./images/bhet9.jpg",
+                    "./images/bhet10.jpg",
+                    "./images/bhet11.jpg",
+                ]
+            },
+            { 
+                date: "20-21 Dec 2025", 
+                title: "Our First Date Together", 
+                detail: "Finally getting to just be 'us' on our first real date.",
+                images: [
+                    "./images/date1.jpg",
+                    "./images/date2.jpg",
+                    "./images/date3.jpg",
+                    "./images/date4.jpg",
+                    "./images/date5.jpg"
+                ]
+            },
+            { 
+                date: "17-18 Jan 2026", 
+                title: "Engagement Shopping", 
+                detail: "Picking out the rings and spending some amazing quality time together.",
+                images: [
+                    "./images/shop1.jpg",
+                    "./images/shop2.jpg",
+                    "./images/shop3.jpg",
+                    "./images/shop4.jpg",
+                ]
+            },
+            { 
+                date: "7 Feb 2026", 
+                title: "Engagement 💍", 
+                detail: "Making it official! The best day surrounded by family.",
+                images: [
+                    "./images/eng1.jpg",
+                    "./images/eng2.jpg",
+                    "./images/eng3.jpg",
+                    "./images/eng4.jpg",
+                    "./images/eng5.jpg",
+                    "./images/eng6.jpg",
+                    "./images/eng7.jpg",
+                    "./images/eng8.jpg",
+                    "./images/eng9.jpg",
+                    "./images/eng10.jpg",
+                ]
+            },
+            { 
+                date: "8 Feb 2026", 
+                title: "My First Birthday with You", 
+                detail: "Celebrating my birthday together for the very first time. You made it so special.",
+                images: [
+                    "./images/bday1.jpg",
+                    "./images/bday2.jpg",
+                    "./images/bday3.jpg",
+                    "./images/bday4.jpg",
+                    "./images/bday5.jpg",
+                    "./images/bday6.jpg",
+                ]
+            },
+            { 
+                date: "21 Feb 2026", 
+                title: "Kanku Pagla", 
+                detail: "A beautiful tradition and welcoming you officially into the family.",
+                images: [
+                    "./images/kankupagla1.png",
+                    "./images/kankupagla2.png",
+                    "./images/kankupagla3.png",
+                    "./images/kankupagla4.png",
+                    "./images/kankupagla5.png",
+                    "./images/kankupagla6.png",
+                    "./images/kankupagla7.png",
+                    "./images/kankupagla8.png",
+                ]
+            },
+            { 
+                date: "22 Feb 2026", 
+                title: "First Mumbai Trip Together", 
+                detail: "Taking on Mumbai together for the first time as an engaged couple.",
+                images: [
+                    "./images/trip1.jpg",
+                    "./images/trip2.jpg",
+                    "./images/trip3.jpg",
+                    "./images/trip4.jpg",
+                    "./images/trip5.jpg",
+                    "./images/trip6.jpg",
+                    "./images/trip7.jpg",
+                    "./images/trip8.jpg",
+                    "./images/trip9.jpg",
+                ]
+            }
+        ];
+
+        const container = document.getElementById('timeline-container');
+
+        // Render Timeline Items
+        timelineData.forEach((item) => {
+            const div = document.createElement('div');
+            div.className = 'timeline-item';
+
+            // Generate the image HTML based on the array length
+            let imagesHTML = '<div class="timeline-gallery">';
+            item.images.forEach(imgSrc => {
+                imagesHTML += `<img src="${imgSrc}" alt="${item.title}">`;
+            });
+            imagesHTML += '</div>';
+
+            div.innerHTML = `
+                <div class="timeline-dot"></div>
+                <div class="timeline-date">${item.date}</div>
+                <div class="timeline-title">${item.title}</div>
+                <div class="timeline-details">
+                    <p>${item.detail}</p>
+                    ${imagesHTML}
+                </div>
+            `;
+
+            // Add click event for accordion effect
+            div.addEventListener('click', function() {
+                // Close other open items
+                document.querySelectorAll('.timeline-item').forEach(el => {
+                    if (el !== this) el.classList.remove('active');
+                });
+                // Toggle current item
+                this.classList.toggle('active');
+            });
+
+            container.appendChild(div);
+        });
+    </script>
+</body>
+</html>
